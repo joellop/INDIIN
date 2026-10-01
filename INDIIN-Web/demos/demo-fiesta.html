@@ -1,156 +1,47 @@
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gala de Graduación 2026 — Invitación Digital</title>
 
-  <!-- Google Fonts -->
+  <!-- Fuentes Externas -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
-  <!-- Lucide Icons CDN -->
+  <!-- Librerías -->
   <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            champagne: '#F4EBD9',
-            gold: {
-              light: '#E8CA65',
-              DEFAULT: '#D4AF37',
-              dark: '#997B1E',
-            },
-            ticket: '#151515'
-          },
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            serif: ['"Cormorant Garamond"', 'serif'],
-          },
-          boxShadow: {
-            'gold-glow': '0 0 35px -5px rgba(212, 175, 55, 0.28)',
-            'card-soft': '0 6px 24px -2px rgba(0, 0, 0, 0.4)'
-          }
-        }
-      }
-    }
-  </script>
 
-  <style>
-    * { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .serif { font-family: 'Cormorant Garamond', serif; }
-
-    @keyframes soundwave {
-      0%, 100% { height: 6px; }
-      50% { height: 22px; }
-    }
-    .sound-bar {
-      animation: soundwave 1s ease-in-out infinite alternate;
-    }
-
-    @keyframes slowHeroZoom {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-      100% { transform: scale(1); }
-    }
-    .hero-zoom {
-      animation: slowHeroZoom 22s ease-in-out infinite alternate;
-      will-change: transform;
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(22px) scale(0.985);
-      filter: blur(4px);
-      transition: 
-        opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
-        transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
-        filter 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
-      will-change: opacity, transform, filter;
-    }
-
-    .reveal.in-view {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      filter: blur(0);
-    }
-
-    .delay-100 { transition-delay: 100ms; }
-    .delay-200 { transition-delay: 200ms; }
-    .delay-300 { transition-delay: 300ms; }
-
-    @keyframes shimmerSweep {
-      0% { transform: translateX(-150%) skewX(-20deg); }
-      40%, 100% { transform: translateX(250%) skewX(-20deg); }
-    }
-
-    .btn-shimmer {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-shimmer::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 60%;
-      height: 100%;
-      background: linear-gradient(
-        90deg, 
-        transparent, 
-        rgba(255, 255, 255, 0.35), 
-        transparent
-      );
-      transform: translateX(-150%) skewX(-20deg);
-      animation: shimmerSweep 3.5s infinite;
-      pointer-events: none;
-    }
-
-    .btn-interactive {
-      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-      cursor: pointer;
-    }
-
-    .btn-interactive:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.35);
-    }
-
-    .btn-interactive:active {
-      transform: scale(0.97) translateY(0);
-    }
-
-    @keyframes softPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
-      50% { box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
-    }
-    .btn-pulse-emerald {
-      animation: softPulse 2.8s infinite;
-    }
-  </style>
+  <!-- Motor Compartido (Tailwind y CSS) -->
+  <script src="../shared/js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="../shared/css/invitation-base.css" />
 </head>
-<body class="bg-[#090909] text-champagne antialiased selection:bg-gold/30 selection:text-white text-base">
+
+<body
+  class="bg-[#090909] text-champagne antialiased selection:bg-gold/30 selection:text-white text-base overflow-x-hidden">
 
   <!-- Pista de audio local para Fiesta / Gala -->
   <audio id="bgMusic" loop preload="auto">
-    <source src="audio/gala.mp3" type="audio/mp3" />
+    <source src="../shared/audio/gala.mp3" type="audio/mp3" />
   </audio>
 
   <!-- ========================================== -->
   <!-- 1. PANTALLA INICIAL: APERTURA DE ENTRADA   -->
   <!-- ========================================== -->
-  <div id="envelopeScreen" class="fixed inset-0 z-50 bg-[#060606] flex flex-col items-center justify-center p-6 text-center transition-all duration-700">
-    <div class="max-w-lg w-full bg-[#121212] border-2 border-gold/30 rounded-3xl p-8 sm:p-12 shadow-2xl flex flex-col items-center relative overflow-hidden">
-      
+  <div id="envelopeScreen"
+    class="fixed inset-0 z-50 bg-[#060606] flex flex-col items-center justify-center p-6 text-center transition-all duration-700">
+    <div
+      class="max-w-lg w-full bg-[#121212] border-2 border-gold/30 rounded-3xl p-8 sm:p-12 shadow-2xl flex flex-col items-center relative overflow-hidden">
+
       <div class="absolute -top-12 -right-12 w-56 h-56 bg-gold/15 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div id="planBadge" class="mb-4 text-sm font-bold text-gold uppercase tracking-[0.25em] bg-gold/10 px-5 py-2 rounded-full border border-gold/30">
+      <div id="planBadge"
+        class="mb-4 text-sm font-bold text-gold uppercase tracking-[0.25em] bg-gold/10 px-5 py-2 rounded-full border border-gold/30">
         Demo: Paquete Signature VIP
       </div>
 
@@ -160,7 +51,8 @@
 
       <!-- Botón táctil de apertura -->
       <button id="unsealBtn" class="relative my-7 group cursor-pointer btn-interactive">
-        <div class="w-28 h-28 rounded-3xl bg-gradient-to-br from-gold-light via-gold to-gold-dark flex items-center justify-center text-black font-bold text-3xl shadow-gold-glow group-hover:scale-105 transition-transform border-2 border-yellow-200">
+        <div
+          class="w-28 h-28 rounded-3xl bg-gradient-to-br from-gold-light via-gold to-gold-dark flex items-center justify-center text-black font-bold text-3xl shadow-gold-glow group-hover:scale-105 transition-transform border-2 border-yellow-200">
           <i data-lucide="party-popper" class="w-14 h-14 text-black"></i>
         </div>
         <div class="absolute -inset-2.5 rounded-3xl border-2 border-gold/40 animate-ping"></div>
@@ -168,8 +60,9 @@
 
       <h2 class="serif text-5xl sm:text-6xl italic text-champagne mb-2">Gala de Graduación</h2>
       <p class="text-base text-gray-300 mb-6 font-medium">Toca el botón para abrir la invitación</p>
-      
-      <div class="flex items-center gap-2.5 text-base sm:text-lg text-gold bg-gold/10 border border-gold/30 px-6 py-2.5 rounded-full font-bold">
+
+      <div
+        class="flex items-center gap-2.5 text-base sm:text-lg text-gold bg-gold/10 border border-gold/30 px-6 py-2.5 rounded-full font-bold">
         <i data-lucide="calendar" class="w-5 h-5 text-gold"></i>
         <span>Viernes, 27 de Noviembre de 2026</span>
       </div>
@@ -179,15 +72,18 @@
   <!-- ========================================== -->
   <!-- 2. INVITACIÓN COMPLETA                     -->
   <!-- ========================================== -->
-  <main id="invitationContent" class="hidden min-h-screen max-w-xl mx-auto bg-[#101010] border-x border-white/10 relative pb-32 shadow-2xl">
-    
+  <main id="invitationContent"
+    class="hidden min-h-screen max-w-xl mx-auto bg-[#101010] border-x border-white/10 relative pb-32 shadow-2xl">
+
     <!-- BARRA DE MÚSICA FLOTANTE -->
-    <div id="feature-audio" class="sticky top-0 z-30 bg-[#101010]/95 backdrop-blur-md px-6 py-4 flex justify-between items-center border-b border-white/10 shadow-sm">
+    <div id="feature-audio"
+      class="sticky top-0 z-30 bg-[#101010]/95 backdrop-blur-md px-6 py-4 flex justify-between items-center border-b border-white/10 shadow-sm">
       <div class="flex items-center gap-3">
         <div class="w-3 h-3 rounded-full bg-gold animate-pulse"></div>
         <span class="text-sm sm:text-base text-gray-200 serif italic font-bold">Coldplay — A Sky Full of Stars</span>
       </div>
-      <button id="toggleMusicBtn" class="flex items-center gap-2 text-sm sm:text-base text-gold font-bold btn-interactive bg-gold/10 hover:bg-gold/20 px-4 py-2 rounded-full border border-gold/30">
+      <button id="toggleMusicBtn"
+        class="flex items-center gap-2 text-sm sm:text-base text-gold font-bold btn-interactive bg-gold/10 hover:bg-gold/20 px-4 py-2 rounded-full border border-gold/30">
         <div class="flex items-end gap-1 h-4">
           <div class="w-0.5 bg-gold rounded-full sound-bar" style="animation-delay: 0.1s;"></div>
           <div class="w-0.5 bg-gold rounded-full sound-bar" style="animation-delay: 0.3s;"></div>
@@ -199,13 +95,18 @@
 
     <!-- ENCABEZADO CON ZOOM CINEMÁTICO -->
     <header class="relative h-[560px] overflow-hidden flex flex-col justify-end p-8 sm:p-10 text-center">
-      <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1200&auto=format&fit=crop" alt="Graduación Gala" class="hero-zoom absolute inset-0 w-full h-full object-cover filter brightness-[0.45] contrast-110" />
+      <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1200&auto=format&fit=crop"
+        alt="Graduación Gala"
+        class="hero-zoom absolute inset-0 w-full h-full object-cover filter brightness-[0.45] contrast-110" />
       <div class="absolute inset-0 bg-gradient-to-t from-[#101010] via-transparent to-black/40"></div>
-      
-      <div class="relative z-10 reveal bg-[#141414]/90 backdrop-blur-sm border border-gold/30 rounded-3xl p-7 shadow-gold-glow">
-        <span class="text-gold text-sm sm:text-base uppercase tracking-[0.35em] font-bold block mb-2">Celebración de Fin de Grado</span>
+
+      <div
+        class="relative z-10 reveal bg-[#141414]/90 backdrop-blur-sm border border-gold/30 rounded-3xl p-7 shadow-gold-glow">
+        <span class="text-gold text-sm sm:text-base uppercase tracking-[0.35em] font-bold block mb-2">Celebración de Fin
+          de Grado</span>
         <h1 class="serif text-5xl sm:text-6xl italic text-champagne mb-2">Noche de Gala 2026</h1>
-        <p class="text-base sm:text-lg text-gray-300 font-light tracking-widest uppercase">Facultad de Ingeniería & Negocios</p>
+        <p class="text-base sm:text-lg text-gray-300 font-light tracking-widest uppercase">Facultad de Ingeniería &
+          Negocios</p>
       </div>
     </header>
 
@@ -219,7 +120,8 @@
         </div>
         <div class="mx-5 relative flex items-center justify-center">
           <div class="absolute inset-0 bg-gold/15 rounded-2xl blur-lg"></div>
-          <div class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
+          <div
+            class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
             <span class="w-1.5 h-1.5 bg-gold rounded-full"></span>
             <i data-lucide="gem" class="w-6 h-6 text-gold"></i>
             <span class="font-mono text-xs uppercase tracking-[0.3em] text-gold font-bold">GALA VIP</span>
@@ -240,7 +142,8 @@
           <span class="text-3xl font-serif italic text-gold font-semibold">Noviembre</span>
         </div>
         <p class="serif text-4xl font-bold text-champagne mt-3">2026</p>
-        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-center gap-2 text-base text-gray-300 font-semibold">
+        <div
+          class="mt-6 pt-4 border-t border-white/10 flex items-center justify-center gap-2 text-base text-gray-300 font-semibold">
           <i data-lucide="map-pin" class="w-5 h-5 text-gold"></i>
           <span>Poliforum Gran Salón Cristal</span>
         </div>
@@ -257,7 +160,8 @@
         </div>
         <div class="mx-5 relative flex items-center justify-center">
           <div class="absolute inset-0 bg-gold/15 rounded-2xl blur-lg"></div>
-          <div class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
+          <div
+            class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
             <span class="w-1.5 h-1.5 bg-gold rounded-full"></span>
             <i data-lucide="gem" class="w-6 h-6 text-gold"></i>
             <span class="font-mono text-xs uppercase tracking-[0.3em] text-gold font-bold">GALA VIP</span>
@@ -271,23 +175,28 @@
       </div>
 
       <div class="reveal max-w-lg mx-auto">
-        <div class="w-14 h-14 rounded-full bg-gold/10 text-gold flex items-center justify-center mx-auto mb-4 border border-gold/25">
+        <div
+          class="w-14 h-14 rounded-full bg-gold/10 text-gold flex items-center justify-center mx-auto mb-4 border border-gold/25">
           <i data-lucide="quote" class="w-7 h-7"></i>
         </div>
         <span class="text-sm text-gold uppercase tracking-[0.3em] font-bold block mb-4">Palabras de la Generación</span>
-        
+
         <!-- Versión Esencial -->
         <div id="mensaje-esencial">
           <p class="serif text-2xl sm:text-3xl italic text-champagne leading-relaxed">
-            "El final de este camino es solo el inicio de una historia inolvidable. Gracias por celebrar este gran logro junto a nosotros."
+            "El final de este camino es solo el inicio de una historia inolvidable. Gracias por celebrar este gran logro
+            junto a nosotros."
           </p>
         </div>
 
         <!-- Versión VIP -->
         <div id="mensaje-vip" class="hidden">
-          <h3 class="serif text-3xl sm:text-4xl italic text-gold mb-4 font-semibold">Brindis por Nuestra Meta Cumplida</h3>
+          <h3 class="serif text-3xl sm:text-4xl italic text-gold mb-4 font-semibold">Brindis por Nuestra Meta Cumplida
+          </h3>
           <p class="text-base sm:text-lg text-gray-200 leading-relaxed font-normal mb-5">
-            Años de esfuerzo, desvelos, proyectos y amistades entrañables convergen en esta noche. Queremos compartir el orgullo de cerrar un ciclo que nos transforma como profesionistas y personas. ¡Bienvenidos a nuestra gran noche de gala!
+            Años de esfuerzo, desvelos, proyectos y amistades entrañables convergen en esta noche. Queremos compartir el
+            orgullo de cerrar un ciclo que nos transforma como profesionistas y personas. ¡Bienvenidos a nuestra gran
+            noche de gala!
           </p>
           <span class="serif text-2xl sm:text-3xl italic text-gold block font-bold">— Generación 2022 – 2026</span>
         </div>
@@ -304,7 +213,8 @@
         </div>
         <div class="mx-5 relative flex items-center justify-center">
           <div class="absolute inset-0 bg-gold/15 rounded-2xl blur-lg"></div>
-          <div class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
+          <div
+            class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
             <span class="w-1.5 h-1.5 bg-gold rounded-full"></span>
             <i data-lucide="gem" class="w-6 h-6 text-gold"></i>
             <span class="font-mono text-xs uppercase tracking-[0.3em] text-gold font-bold">GALA VIP</span>
@@ -317,7 +227,8 @@
         </div>
       </div>
 
-      <div class="w-14 h-14 rounded-full bg-gold/10 text-gold flex items-center justify-center mx-auto mb-4 border border-gold/25">
+      <div
+        class="w-14 h-14 rounded-full bg-gold/10 text-gold flex items-center justify-center mx-auto mb-4 border border-gold/25">
         <i data-lucide="hourglass" class="w-7 h-7"></i>
       </div>
       <span class="text-sm text-gold uppercase tracking-widest font-extrabold block mb-6">FALTA PARA LA GALA</span>
@@ -351,7 +262,8 @@
         </div>
         <div class="mx-5 relative flex items-center justify-center">
           <div class="absolute inset-0 bg-gold/15 rounded-2xl blur-lg"></div>
-          <div class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
+          <div
+            class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
             <span class="w-1.5 h-1.5 bg-gold rounded-full"></span>
             <i data-lucide="gem" class="w-6 h-6 text-gold"></i>
             <span class="font-mono text-xs uppercase tracking-[0.3em] text-gold font-bold">GALA VIP</span>
@@ -369,27 +281,42 @@
           <span class="text-sm text-gold uppercase tracking-widest font-bold block mb-1">Nuestra Generación</span>
           <h3 class="serif text-3xl sm:text-5xl italic text-champagne">Momentos de Estudio</h3>
         </div>
-        <span id="galeria-badge" class="text-sm text-gold bg-gold/10 border border-gold/30 px-4 py-2 rounded-full font-mono font-bold">3 Fotos</span>
+        <span id="galeria-badge"
+          class="text-sm text-gold bg-gold/10 border border-gold/30 px-4 py-2 rounded-full font-mono font-bold">3
+          Fotos</span>
       </div>
 
       <div class="grid grid-cols-2 gap-5">
         <div class="reveal h-64 sm:h-72 rounded-3xl overflow-hidden border-2 border-white/10 group shadow-card-soft">
-          <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Recuerdo Generación 1">
+          <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=800&auto=format&fit=crop"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            alt="Recuerdo Generación 1">
         </div>
-        <div class="reveal delay-100 h-64 sm:h-72 rounded-3xl overflow-hidden border-2 border-white/10 group shadow-card-soft">
-          <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Recuerdo Generación 2">
+        <div
+          class="reveal delay-100 h-64 sm:h-72 rounded-3xl overflow-hidden border-2 border-white/10 group shadow-card-soft">
+          <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=800&auto=format&fit=crop"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            alt="Recuerdo Generación 2">
         </div>
-        <div class="reveal col-span-2 h-72 sm:h-80 rounded-3xl overflow-hidden border-2 border-white/10 group shadow-card-soft">
-          <img src="https://images.unsplash.com/photo-1525921429624-479b6a26d84d?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Recuerdo Generación 3">
+        <div
+          class="reveal col-span-2 h-72 sm:h-80 rounded-3xl overflow-hidden border-2 border-white/10 group shadow-card-soft">
+          <img src="https://images.unsplash.com/photo-1525921429624-479b6a26d84d?q=80&w=1200&auto=format&fit=crop"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            alt="Recuerdo Generación 3">
         </div>
       </div>
 
       <div id="galeria-vip-extra" class="grid grid-cols-2 gap-5 mt-5">
         <div class="reveal h-64 sm:h-72 rounded-3xl overflow-hidden border-2 border-white/10 group shadow-card-soft">
-          <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Recuerdo Generación 4">
+          <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=800&auto=format&fit=crop"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            alt="Recuerdo Generación 4">
         </div>
-        <div class="reveal delay-100 h-64 sm:h-72 rounded-3xl overflow-hidden border-2 border-white/10 group shadow-card-soft">
-          <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Recuerdo Generación 5">
+        <div
+          class="reveal delay-100 h-64 sm:h-72 rounded-3xl overflow-hidden border-2 border-white/10 group shadow-card-soft">
+          <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            alt="Recuerdo Generación 5">
         </div>
       </div>
     </section>
@@ -404,7 +331,8 @@
         </div>
         <div class="mx-5 relative flex items-center justify-center">
           <div class="absolute inset-0 bg-gold/15 rounded-2xl blur-lg"></div>
-          <div class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
+          <div
+            class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
             <span class="w-1.5 h-1.5 bg-gold rounded-full"></span>
             <i data-lucide="gem" class="w-6 h-6 text-gold"></i>
             <span class="font-mono text-xs uppercase tracking-[0.3em] text-gold font-bold">GALA VIP</span>
@@ -424,7 +352,8 @@
 
       <div class="reveal bg-[#161616] border-2 border-white/10 rounded-3xl p-7 space-y-5 shadow-card-soft">
         <div class="flex items-center gap-4">
-          <div class="w-14 h-14 rounded-2xl bg-gold/10 text-gold flex items-center justify-center shrink-0 border border-gold/30">
+          <div
+            class="w-14 h-14 rounded-2xl bg-gold/10 text-gold flex items-center justify-center shrink-0 border border-gold/30">
             <i data-lucide="building" class="w-7 h-7"></i>
           </div>
           <div>
@@ -445,10 +374,12 @@
         </div>
 
         <div class="grid grid-cols-2 gap-4 pt-2">
-          <a href="https://maps.google.com" target="_blank" class="py-4 bg-[#202020] hover:bg-gold/20 text-champagne border-2 border-white/10 hover:border-gold rounded-2xl text-base font-bold flex items-center justify-center gap-2 transition-all btn-interactive">
+          <a href="https://maps.google.com" target="_blank"
+            class="py-4 bg-[#202020] hover:bg-gold/20 text-champagne border-2 border-white/10 hover:border-gold rounded-2xl text-base font-bold flex items-center justify-center gap-2 transition-all btn-interactive">
             <i data-lucide="map-pin" class="w-5 h-5 text-gold"></i> Google Maps
           </a>
-          <a href="https://waze.com" target="_blank" class="py-4 bg-[#202020] hover:bg-gold/20 text-champagne border-2 border-white/10 hover:border-gold rounded-2xl text-base font-bold flex items-center justify-center gap-2 transition-all btn-interactive">
+          <a href="https://waze.com" target="_blank"
+            class="py-4 bg-[#202020] hover:bg-gold/20 text-champagne border-2 border-white/10 hover:border-gold rounded-2xl text-base font-bold flex items-center justify-center gap-2 transition-all btn-interactive">
             <i data-lucide="navigation" class="w-5 h-5 text-gold"></i> Abrir Waze
           </a>
         </div>
@@ -464,7 +395,8 @@
         </div>
         <div class="mx-5 relative flex items-center justify-center">
           <div class="absolute inset-0 bg-gold/15 rounded-2xl blur-lg"></div>
-          <div class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
+          <div
+            class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
             <span class="w-1.5 h-1.5 bg-gold rounded-full"></span>
             <i data-lucide="gem" class="w-6 h-6 text-gold"></i>
             <span class="font-mono text-xs uppercase tracking-[0.3em] text-gold font-bold">GALA VIP</span>
@@ -478,7 +410,8 @@
       </div>
 
       <div class="text-center mb-8 reveal">
-        <div class="w-14 h-14 rounded-full bg-gold/10 text-gold flex items-center justify-center mx-auto mb-4 border border-gold/25">
+        <div
+          class="w-14 h-14 rounded-full bg-gold/10 text-gold flex items-center justify-center mx-auto mb-4 border border-gold/25">
           <i data-lucide="calendar-check" class="w-7 h-7"></i>
         </div>
         <span class="text-sm text-gold uppercase tracking-[0.25em] font-bold block mb-1">Programa Oficial</span>
@@ -486,7 +419,8 @@
       </div>
 
       <div class="space-y-4 text-base">
-        <div class="reveal flex items-center gap-4 bg-[#161616] p-5 rounded-2xl border border-white/10 shadow-card-soft">
+        <div
+          class="reveal flex items-center gap-4 bg-[#161616] p-5 rounded-2xl border border-white/10 shadow-card-soft">
           <div class="w-12 h-12 rounded-xl bg-gold/10 text-gold flex items-center justify-center shrink-0">
             <i data-lucide="glass-water" class="w-6 h-6 text-gold"></i>
           </div>
@@ -496,7 +430,8 @@
           </div>
         </div>
 
-        <div class="reveal delay-100 flex items-center gap-4 bg-[#161616] p-5 rounded-2xl border border-white/10 shadow-card-soft">
+        <div
+          class="reveal delay-100 flex items-center gap-4 bg-[#161616] p-5 rounded-2xl border border-white/10 shadow-card-soft">
           <div class="w-12 h-12 rounded-xl bg-gold/10 text-gold flex items-center justify-center shrink-0">
             <i data-lucide="award" class="w-6 h-6 text-gold"></i>
           </div>
@@ -506,7 +441,8 @@
           </div>
         </div>
 
-        <div class="reveal delay-200 flex items-center gap-4 bg-[#161616] p-5 rounded-2xl border border-white/10 shadow-card-soft">
+        <div
+          class="reveal delay-200 flex items-center gap-4 bg-[#161616] p-5 rounded-2xl border border-white/10 shadow-card-soft">
           <div class="w-12 h-12 rounded-xl bg-gold/10 text-gold flex items-center justify-center shrink-0">
             <i data-lucide="utensils" class="w-6 h-6 text-gold"></i>
           </div>
@@ -516,7 +452,8 @@
           </div>
         </div>
 
-        <div class="reveal delay-300 flex items-center gap-4 bg-[#161616] p-5 rounded-2xl border border-white/10 shadow-card-soft">
+        <div
+          class="reveal delay-300 flex items-center gap-4 bg-[#161616] p-5 rounded-2xl border border-white/10 shadow-card-soft">
           <div class="w-12 h-12 rounded-xl bg-gold/10 text-gold flex items-center justify-center shrink-0">
             <i data-lucide="music" class="w-6 h-6 text-gold"></i>
           </div>
@@ -538,7 +475,8 @@
         </div>
         <div class="mx-5 relative flex items-center justify-center">
           <div class="absolute inset-0 bg-gold/15 rounded-2xl blur-lg"></div>
-          <div class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
+          <div
+            class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
             <span class="w-1.5 h-1.5 bg-gold rounded-full"></span>
             <i data-lucide="gem" class="w-6 h-6 text-gold"></i>
             <span class="font-mono text-xs uppercase tracking-[0.3em] text-gold font-bold">GALA VIP</span>
@@ -551,11 +489,13 @@
         </div>
       </div>
 
-      <div class="w-14 h-14 rounded-full bg-gold/10 text-gold flex items-center justify-center mx-auto mb-4 border border-gold/25">
+      <div
+        class="w-14 h-14 rounded-full bg-gold/10 text-gold flex items-center justify-center mx-auto mb-4 border border-gold/25">
         <i data-lucide="sparkles" class="w-7 h-7"></i>
       </div>
       <h3 class="serif text-4xl sm:text-5xl italic text-gold mb-3">Código de Vestimenta</h3>
-      <span class="text-lg sm:text-xl font-extrabold uppercase tracking-wider block mb-3 text-champagne">Etiqueta Rigurosa / Black Tie</span>
+      <span class="text-lg sm:text-xl font-extrabold uppercase tracking-wider block mb-3 text-champagne">Etiqueta
+        Rigurosa / Black Tie</span>
       <p class="text-base sm:text-lg text-gray-300 max-w-md mx-auto leading-relaxed">
         Caballeros: Esmoquin o traje formal oscuro.<br>
         Damas: Vestido largo de noche de gala.
@@ -572,7 +512,8 @@
         </div>
         <div class="mx-5 relative flex items-center justify-center">
           <div class="absolute inset-0 bg-gold/15 rounded-2xl blur-lg"></div>
-          <div class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
+          <div
+            class="relative px-6 py-2.5 bg-[#161616] border-2 border-gold/70 rounded-2xl shadow-gold-glow flex items-center gap-3">
             <span class="w-1.5 h-1.5 bg-gold rounded-full"></span>
             <i data-lucide="gem" class="w-6 h-6 text-gold"></i>
             <span class="font-mono text-xs uppercase tracking-[0.3em] text-gold font-bold">GALA VIP</span>
@@ -585,21 +526,30 @@
         </div>
       </div>
 
-      <div class="w-14 h-14 rounded-full bg-gold/10 text-gold flex items-center justify-center mx-auto mb-4 border border-gold/25">
+      <div
+        class="w-14 h-14 rounded-full bg-gold/10 text-gold flex items-center justify-center mx-auto mb-4 border border-gold/25">
         <i data-lucide="check-circle" class="w-7 h-7"></i>
       </div>
-      <h3 class="serif text-4xl sm:text-5xl italic text-gold mb-3 reveal">Aviso de Confirmación</h3>
-      <p class="text-base sm:text-lg text-gray-300 mb-8 reveal font-normal">Confirma tu asistencia para coordinar el acceso y lugares.</p>
 
-      <div class="reveal bg-[#161616] border-2 border-gold/30 rounded-3xl p-7 sm:p-8 text-left space-y-6 shadow-gold-glow">
+      <h3 class="serif text-4xl sm:text-5xl italic text-gold mb-3 reveal">Aviso de Confirmación</h3>
+      <p class="text-base sm:text-lg text-gray-300 mb-8 reveal font-normal">Confirma tu asistencia para coordinar el
+        acceso y lugares.</p>
+
+      <div id="rsvpCardContainer"
+        class="reveal bg-[#161616] border-2 border-gold/30 rounded-3xl p-7 sm:p-8 text-left space-y-6 shadow-gold-glow">
         <div>
-          <label class="block text-sm font-bold text-gold uppercase tracking-wider mb-2">Nombre Completo del Asistente</label>
-          <input id="guestName" type="text" placeholder="Ej. Lic. Fernando Morales" class="w-full bg-[#101010] border border-white/20 rounded-2xl px-5 py-4 text-base text-champagne focus:border-gold outline-none" />
+          <label class="block text-sm font-bold text-gold uppercase tracking-wider mb-2">Nombre del Asistente</label>
+          <input id="guestName" type="text" placeholder="Ej. Lic. Fernando Morales"
+            class="w-full bg-[#101010] border border-white/20 rounded-2xl px-5 py-4 text-base text-champagne focus:border-gold outline-none" />
+          <p id="guestNameError" class="hidden text-xs text-rose-500 font-semibold mt-1.5 flex items-center gap-1">
+            <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Por favor ingresa tu nombre para confirmar.
+          </p>
         </div>
 
         <div>
           <label class="block text-sm font-bold text-gold uppercase tracking-wider mb-2">Estado de Asistencia</label>
-          <select id="guestAttendance" class="w-full bg-[#101010] border border-white/20 rounded-2xl px-5 py-4 text-base text-champagne focus:border-gold outline-none">
+          <select id="guestAttendance"
+            class="w-full bg-[#101010] border border-white/20 rounded-2xl px-5 py-4 text-base text-champagne focus:border-gold outline-none">
             <option value="si">Confirmar mi asistencia</option>
             <option value="no">No podré asistir</option>
           </select>
@@ -607,149 +557,24 @@
 
         <div id="feature-pases">
           <label class="block text-sm font-bold text-gold uppercase tracking-wider mb-2">Pases Requeridos</label>
-          <select id="guestTickets" class="w-full bg-[#101010] border border-white/20 rounded-2xl px-5 py-4 text-base text-champagne focus:border-gold outline-none">
-            <option value="1">1 Pase (Personal)</option>
-            <option value="2" selected>2 Pases (Con acompañante)</option>
-            <option value="3">3 Pases (Familia)</option>
+          <select id="guestTickets"
+            class="w-full bg-[#101010] border border-white/20 rounded-2xl px-5 py-4 text-base text-champagne focus:border-gold outline-none">
+            <!-- Rellenado dinámicamente por JS -->
           </select>
         </div>
 
-        <button id="sendWhatsAppRSVP" class="w-full py-4 sm:py-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl text-base sm:text-lg font-bold flex items-center justify-center gap-3 shadow-lg btn-shimmer btn-interactive btn-pulse-emerald">
-          <i data-lucide="message-circle" class="w-6 h-6"></i> Enviar Confirmación por WhatsApp
+        <button id="sendWhatsAppRSVP"
+          class="w-full py-4 sm:py-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl text-base sm:text-lg font-bold flex items-center justify-center gap-3 shadow-lg btn-shimmer btn-interactive btn-pulse-emerald">
+          <i data-lucide="message-circle" class="w-6 h-6"></i> Confirmar Asistencia por WhatsApp
         </button>
       </div>
     </section>
 
   </main>
 
-  <!-- ========================================== -->
-  <!-- 3. SCRIPT: CONTROL DINÁMICO & CUENTA ATRÁS -->
-  <!-- ========================================== -->
-  <script>
-    lucide.createIcons();
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const plan = (urlParams.get('plan') || 'vip').toLowerCase();
-
-    const planBadge = document.getElementById('planBadge');
-    const mensajeEsencial = document.getElementById('mensaje-esencial');
-    const mensajeVip = document.getElementById('mensaje-vip');
-    const galeriaBadge = document.getElementById('galeria-badge');
-    const galeriaVipExtra = document.getElementById('galeria-vip-extra');
-    const featureItinerario = document.getElementById('feature-itinerario');
-    const featurePases = document.getElementById('feature-pases');
-    const bgMusic = document.getElementById('bgMusic');
-
-    if (plan === 'esencial') {
-      planBadge.textContent = 'Demo: Paquete Esencial';
-      if (mensajeEsencial) mensajeEsencial.classList.remove('hidden');
-      if (mensajeVip) mensajeVip.classList.add('hidden');
-      if (galeriaBadge) galeriaBadge.textContent = '3 Fotos';
-      if (galeriaVipExtra) galeriaVipExtra.classList.add('hidden');
-      if (featureItinerario) featureItinerario.classList.add('hidden');
-      if (featurePases) featurePases.classList.add('hidden');
-    } else {
-      planBadge.textContent = 'Demo: Paquete Signature VIP';
-      if (mensajeEsencial) mensajeEsencial.classList.add('hidden');
-      if (mensajeVip) mensajeVip.classList.remove('hidden');
-      if (galeriaBadge) galeriaBadge.textContent = 'Álbum Completo';
-      if (galeriaVipExtra) galeriaVipExtra.classList.remove('hidden');
-      if (featureItinerario) featureItinerario.classList.remove('hidden');
-      if (featurePases) featurePases.classList.remove('hidden');
-    }
-
-    const envelopeScreen = document.getElementById('envelopeScreen');
-    const unsealBtn = document.getElementById('unsealBtn');
-    const invitationContent = document.getElementById('invitationContent');
-    const toggleMusicBtn = document.getElementById('toggleMusicBtn');
-    const musicStatusText = document.getElementById('musicStatusText');
-
-    unsealBtn.addEventListener('click', () => {
-      envelopeScreen.classList.add('opacity-0', 'pointer-events-none');
-      if (bgMusic) {
-        bgMusic.volume = 0.6;
-        bgMusic.play().catch(err => console.log("Audio en espera:", err));
-      }
-      setTimeout(() => {
-        envelopeScreen.classList.add('hidden');
-        invitationContent.classList.remove('hidden');
-        window.scrollTo({ top: 0, behavior: 'instant' });
-        initScrollReveal();
-      }, 500);
-    });
-
-    if (toggleMusicBtn) {
-      toggleMusicBtn.addEventListener('click', () => {
-        if (!bgMusic) return;
-        if (bgMusic.paused) {
-          bgMusic.play();
-          musicStatusText.textContent = 'Sonando';
-          toggleMusicBtn.classList.remove('opacity-50');
-        } else {
-          bgMusic.pause();
-          musicStatusText.textContent = 'Pausado';
-          toggleMusicBtn.classList.add('opacity-50');
-        }
-      });
-    }
-
-    function initScrollReveal() {
-      const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-          }
-        });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -30px 0px'
-      });
-      document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-    }
-
-    const galaDate = new Date('2026-11-27T19:30:00').getTime();
-    const daysEl = document.getElementById('countdown-days');
-    const hoursEl = document.getElementById('countdown-hours');
-    const minutesEl = document.getElementById('countdown-minutes');
-    const secondsEl = document.getElementById('countdown-seconds');
-
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = galaDate - now;
-
-      if (distance <= 0) {
-        if (daysEl) daysEl.textContent = '00';
-        if (hoursEl) hoursEl.textContent = '00';
-        if (minutesEl) minutesEl.textContent = '00';
-        if (secondsEl) secondsEl.textContent = '00';
-        return;
-      }
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
-      if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
-      if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
-      if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
-    }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-
-    document.getElementById('sendWhatsAppRSVP').addEventListener('click', () => {
-      const name = document.getElementById('guestName').value.trim() || 'Graduado/Invitado';
-      const attendance = document.getElementById('guestAttendance').value === 'si' 
-        ? 'Confirmo asistencia al evento' 
-        : 'No podré asistir a la gala';
-      const tickets = featurePases && !featurePases.classList.contains('hidden') 
-        ? ` (${document.getElementById('guestTickets').value} pases requeridos)` 
-        : '';
-      const message = `¡Hola! Soy ${name}. ${attendance} para la Gala de Graduación 2026 el 27 de Noviembre${tickets}.`;
-      window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
-    });
-  </script>
+  <!-- CONFIGURACIÓN DE LA DEMO Y MOTOR COMPARTIDO -->
+  <script src="js/config-demo-fiesta.js"></script>
+  <script src="../shared/js/invitation-core.js"></script>
 </body>
+
 </html>

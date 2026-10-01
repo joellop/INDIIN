@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sofía & Mateo — Nuestra Boda</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Rutas relativas subiendo un nivel -->
+  <script src="../shared/js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="../shared/css/invitation-base.css" />
+</head>
+
+<body class="bg-wedding-bg text-wedding-text antialiased selection:bg-gold/20 selection:text-gold-dark text-base">
+
+  <!-- Audio local para demo -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="../shared/audio/boda.mp3" type="audio/mp3" />
+  </audio>
+
+  <!-- ========================================== -->
+  <!-- 1. PANTALLA INICIAL: SOBRE VIRTUAL         -->
+  <!-- ========================================== -->
+  <div id="envelopeScreen"
+    class="fixed inset-0 z-50 bg-[#F3EFE6] flex flex-col items-center justify-center p-4 sm:p-6 text-center transition-all duration-700">
+    <div
+      class="max-w-md w-full bg-white border-2 border-wedding-border rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col items-center relative overflow-hidden">
+
+      <div class="absolute -top-12 -right-12 w-56 h-56 bg-gold/15 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div id="planBadge"
+        class="mb-3 text-xs sm:text-sm font-bold text-gold-dark uppercase tracking-[0.25em] bg-gold/10 px-4 py-1.5 rounded-full border border-gold/30">
+        Demo: Paquete Signature VIP
+      </div>
+
+      <span class="text-xs sm:text-sm uppercase tracking-[0.3em] text-wedding-muted mb-2 font-semibold">Nuestra
+        Boda</span>
+
+      <button id="unsealBtn" class="relative my-6 group cursor-pointer btn-interactive">
+        <div
+          class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-gold-light via-gold to-gold-dark flex items-center justify-center text-white font-serif font-bold text-3xl sm:text-4xl shadow-wedding-soft group-hover:scale-105 transition-transform border-2 border-white/90">
+          S & M
+        </div>
+        <div class="absolute -inset-2 rounded-full border-2 border-gold/40 animate-ping"></div>
+      </button>
+
+      <h2 class="serif text-4xl sm:text-6xl italic text-wedding-text mb-2">Sofía & Mateo</h2>
+      <p class="text-sm sm:text-base text-wedding-muted mb-6 font-medium">Toca el sello para abrir la invitación</p>
+
+      <div
+        class="flex items-center gap-2 text-sm sm:text-base text-gold-dark bg-gold/10 border border-gold/25 px-5 py-2 rounded-full font-bold">
+        <i data-lucide="calendar" class="w-4 h-4 text-gold-dark"></i>
+        <span>Sábado, 24 de Octubre de 2026</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 2. INVITACIÓN REAL COMPLETA                -->
+  <!-- ========================================== -->
+  <main id="invitationContent"
+    class="hidden min-h-screen max-w-xl mx-auto bg-wedding-surface border-x border-wedding-border relative pb-32 shadow-xl overflow-x-hidden">
+
+    <!-- BARRA DE AUDIO FLOTANTE -->
+    <div id="feature-audio"
+      class="sticky top-0 z-30 bg-white/95 backdrop-blur-md px-4 sm:px-6 py-3.5 flex justify-between items-center border-b border-wedding-border shadow-sm">
+      <div class="flex items-center gap-2.5 truncate max-w-[70%]">
+        <div class="w-2.5 h-2.5 rounded-full bg-gold animate-pulse shrink-0"></div>
+        <span class="text-xs sm:text-base text-wedding-text serif italic font-bold truncate">Canon in D Major —
+          Pachelbel</span>
+      </div>
+      <button id="toggleMusicBtn"
+        class="flex items-center gap-2 text-xs sm:text-sm text-gold-dark font-bold btn-interactive bg-gold/10 hover:bg-gold/20 px-3.5 py-1.5 rounded-full border border-gold/30 shrink-0">
+        <div class="flex items-end gap-1 h-3.5">
+          <div class="w-0.5 bg-gold-dark rounded-full sound-bar" style="animation-delay: 0.1s;"></div>
+          <div class="w-0.5 bg-gold-dark rounded-full sound-bar" style="animation-delay: 0.3s;"></div>
+          <div class="w-0.5 bg-gold-dark rounded-full sound-bar" style="animation-delay: 0.2s;"></div>
+        </div>
+        <span id="musicStatusText" class="uppercase tracking-wider">Música</span>
+      </button>
+    </div>
+
+    <!-- PORTADA NUPCIAL -->
+    <header class="relative h-[520px] sm:h-[560px] overflow-hidden flex flex-col justify-end p-6 sm:p-10 text-center">
+      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop"
+        alt="Sofía & Mateo"
+        class="hero-zoom absolute inset-0 w-full h-full object-cover filter brightness-[0.88] contrast-105" />
+      <div class="absolute inset-0 bg-gradient-to-t from-wedding-surface via-black/15 to-transparent"></div>
+
+      <div
+        class="relative z-10 reveal bg-white/95 backdrop-blur-sm border border-wedding-border rounded-3xl p-6 sm:p-7 shadow-wedding-soft">
+        <span class="text-gold-dark text-xs sm:text-base uppercase tracking-[0.35em] font-bold block mb-1.5">Nuestra
+          Boda</span>
+        <h1 class="serif text-5xl sm:text-7xl italic text-wedding-text mb-2">Sofía & Mateo</h1>
+        <p class="text-sm sm:text-base text-wedding-muted font-normal italic leading-relaxed">"El amor no se mira con
+          los ojos, sino con el alma."</p>
+      </div>
+    </header>
+
+    <!-- BLOQUE PRINCIPAL: FECHA ADAPTABLE -->
+    <section class="p-4 sm:p-8 text-center">
+      <div class="relative flex py-3 items-center mb-6">
+        <div class="flex-grow border-t border-gold/30"></div>
+        <span class="flex-shrink mx-4 text-gold-dark text-base font-serif">✦ ✦ ✦</span>
+        <div class="flex-grow border-t border-gold/30"></div>
+      </div>
+
+      <div
+        class="reveal w-full max-w-md mx-auto bg-white border-2 border-gold/30 rounded-3xl p-6 sm:p-8 shadow-wedding-soft">
+        <span class="text-xs sm:text-sm uppercase tracking-[0.3em] text-gold-dark font-extrabold block mb-3">Reserva la
+          Fecha</span>
+
+        <div class="flex items-center justify-center gap-2 sm:gap-4 my-2 flex-nowrap">
+          <span class="text-xl sm:text-3xl font-serif italic text-gold-dark font-semibold">Sábado</span>
+          <span
+            class="serif text-5xl sm:text-7xl font-bold text-wedding-text border-x-2 border-gold/30 px-3 sm:px-5 leading-none">24</span>
+          <span class="text-xl sm:text-3xl font-serif italic text-gold-dark font-semibold">Octubre</span>
+        </div>
+
+        <p class="serif text-3xl sm:text-4xl font-bold text-wedding-text mt-2 sm:mt-3">2026</p>
+        <div
+          class="mt-5 pt-4 border-t border-wedding-border flex items-center justify-center gap-2 text-sm sm:text-base text-wedding-muted font-semibold">
+          <i data-lucide="map-pin" class="w-4 h-4 text-gold-dark shrink-0"></i>
+          <span>Santiago de Querétaro, Qro.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENSAJE DE NOVIOS -->
+    <section class="p-6 sm:p-10 text-center bg-white/70">
+      <div class="relative flex py-3 items-center mb-6">
+        <div class="flex-grow border-t border-gold/30"></div>
+        <span class="flex-shrink mx-4 text-gold-dark text-base font-serif">✦ ✦ ✦</span>
+        <div class="flex-grow border-t border-gold/30"></div>
+      </div>
+
+      <div class="reveal max-w-lg mx-auto">
+        <div
+          class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto mb-3.5 border border-gold/25">
+          <i data-lucide="quote" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+        </div>
+        <span class="text-xs sm:text-sm text-gold-dark uppercase tracking-[0.3em] font-bold block mb-3">Nuestra
+          Promesa</span>
+
+        <div id="mensaje-esencial">
+          <p class="serif text-xl sm:text-3xl italic text-wedding-text leading-relaxed">
+            "Hay momentos en la vida inolvidables, pero compartirlos con las personas que más amamos los hace eternos."
+          </p>
+        </div>
+
+        <div id="mensaje-vip" class="hidden">
+          <h3 class="serif text-2xl sm:text-4xl italic text-gold-dark mb-3 font-semibold">Bienvenidos a Nuestro Gran Día
+          </h3>
+          <p class="text-base sm:text-lg text-wedding-text leading-relaxed font-normal mb-5">
+            Después de compartir risas, viajes y sueños, hemos decidido dar el paso más importante de nuestras vidas.
+            Queremos que seas parte de esta noche mágica donde uniremos nuestros caminos para siempre.
+          </p>
+
+          <div class="mt-4 text-center">
+            <span class="text-xs sm:text-sm uppercase tracking-[0.25em] text-wedding-muted block mb-1 font-semibold">
+              — Con todo nuestro cariño —
+            </span>
+            <span class="serif text-3xl sm:text-4xl italic text-gold-dark font-bold block leading-tight">
+              Sofía & Mateo
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NUESTROS PADRES -->
+    <section class="p-6 sm:p-10 text-center">
+      <div class="relative flex py-3 items-center mb-6">
+        <div class="flex-grow border-t border-gold/30"></div>
+        <span class="flex-shrink mx-4 text-gold-dark text-base font-serif">✦ ✦ ✦</span>
+        <div class="flex-grow border-t border-gold/30"></div>
+      </div>
+
+      <div class="reveal">
+        <div
+          class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto mb-3.5 border border-gold/25">
+          <i data-lucide="heart-handshake" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+        </div>
+        <span class="text-xs sm:text-sm text-gold-dark uppercase tracking-[0.25em] font-bold block mb-1.5">Con la
+          bendición y amor de</span>
+        <h3 class="serif text-3xl sm:text-5xl italic text-wedding-text mb-6">Nuestros Padres</h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm sm:text-base">
+          <div class="bg-white border-2 border-wedding-border rounded-3xl p-5 sm:p-6 text-center shadow-card-soft">
+            <div
+              class="w-10 h-10 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto mb-2.5">
+              <i data-lucide="users" class="w-5 h-5"></i>
+            </div>
+            <span class="text-xs uppercase tracking-widest text-gold-dark block font-mono font-bold mb-1.5">Padres de la
+              Novia</span>
+            <p class="font-bold text-base sm:text-lg text-wedding-text">Fernando Valenzuela</p>
+            <p class="text-sm sm:text-base text-wedding-muted font-medium mt-0.5">& Patricia Castillo</p>
+          </div>
+
+          <div class="bg-white border-2 border-wedding-border rounded-3xl p-5 sm:p-6 text-center shadow-card-soft">
+            <div
+              class="w-10 h-10 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto mb-2.5">
+              <i data-lucide="users" class="w-5 h-5"></i>
+            </div>
+            <span class="text-xs uppercase tracking-widest text-gold-dark block font-mono font-bold mb-1.5">Padres del
+              Novio</span>
+            <p class="font-bold text-base sm:text-lg text-wedding-text">Roberto Morales</p>
+            <p class="text-sm sm:text-base text-wedding-muted font-medium mt-0.5">& Cecilia Navarro</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CUENTA REGRESIVA DINÁMICA REAL -->
+    <section class="reveal p-6 sm:p-10 text-center bg-white/70">
+      <div class="relative flex py-3 items-center mb-6">
+        <div class="flex-grow border-t border-gold/30"></div>
+        <span class="flex-shrink mx-4 text-gold-dark text-base font-serif">✦ ✦ ✦</span>
+        <div class="flex-grow border-t border-gold/30"></div>
+      </div>
+
+      <div
+        class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto mb-3.5 border border-gold/25">
+        <i data-lucide="hourglass" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+      </div>
+      <span class="text-xs sm:text-sm text-gold-dark uppercase tracking-widest font-extrabold block mb-5">FALTAN PARA EL
+        GRAN DÍA</span>
+      <div class="grid grid-cols-4 gap-2 sm:gap-4 font-mono">
+        <div class="bg-white border-2 border-wedding-border p-3 sm:p-5 rounded-2xl shadow-card-soft">
+          <span id="countdown-days" class="text-2xl sm:text-4xl font-bold text-wedding-text block">--</span>
+          <span class="text-[10px] sm:text-xs text-wedding-muted uppercase font-bold mt-1 block">Días</span>
+        </div>
+        <div class="bg-white border-2 border-wedding-border p-3 sm:p-5 rounded-2xl shadow-card-soft">
+          <span id="countdown-hours" class="text-2xl sm:text-4xl font-bold text-wedding-text block">--</span>
+          <span class="text-[10px] sm:text-xs text-wedding-muted uppercase font-bold mt-1 block">Horas</span>
+        </div>
+        <div class="bg-white border-2 border-wedding-border p-3 sm:p-5 rounded-2xl shadow-card-soft">
+          <span id="countdown-minutes" class="text-2xl sm:text-4xl font-bold text-wedding-text block">--</span>
+          <span class="text-[10px] sm:text-xs text-wedding-muted uppercase font-bold mt-1 block">Min</span>
+        </div>
+        <div class="bg-white border-2 border-wedding-border p-3 sm:p-5 rounded-2xl shadow-card-soft">
+          <span id="countdown-seconds" class="text-2xl sm:text-4xl font-bold text-wedding-text block">--</span>
+          <span class="text-[10px] sm:text-xs text-wedding-muted uppercase font-bold mt-1 block">Seg</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALERÍA FOTOGRÁFICA -->
+    <section class="p-6 sm:p-10">
+      <div class="relative flex py-3 items-center mb-6">
+        <div class="flex-grow border-t border-gold/30"></div>
+        <span class="flex-shrink mx-4 text-gold-dark text-base font-serif">✦ ✦ ✦</span>
+        <div class="flex-grow border-t border-gold/30"></div>
+      </div>
+
+      <div class="flex items-center justify-between mb-6 reveal">
+        <div>
+          <span class="text-xs sm:text-sm text-gold-dark uppercase tracking-widest font-bold block mb-1">Nuestra
+            Historia</span>
+          <h3 class="serif text-3xl sm:text-5xl italic text-wedding-text">Nuestros Momentos</h3>
+        </div>
+        <span id="galeria-badge"
+          class="text-xs sm:text-sm text-gold-dark bg-gold/10 border border-gold/30 px-3 py-1.5 rounded-full font-mono font-bold">3
+          Fotos</span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3.5 sm:gap-5">
+        <div
+          class="reveal h-52 sm:h-72 rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-wedding-border group shadow-card-soft">
+          <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800&auto=format&fit=crop"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            alt="Foto Novios 1">
+        </div>
+        <div
+          class="reveal delay-100 h-52 sm:h-72 rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-wedding-border group shadow-card-soft">
+          <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800&auto=format&fit=crop"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            alt="Foto Novios 2">
+        </div>
+        <div
+          class="reveal col-span-2 h-64 sm:h-80 rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-wedding-border group shadow-card-soft">
+          <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200&auto=format&fit=crop"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            alt="Foto Novios 3">
+        </div>
+      </div>
+
+      <div id="galeria-vip-extra" class="grid grid-cols-2 gap-3.5 sm:gap-5 mt-3.5 sm:mt-5">
+        <div
+          class="reveal h-52 sm:h-72 rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-wedding-border group shadow-card-soft">
+          <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            alt="Foto Novios 4">
+        </div>
+        <div
+          class="reveal delay-100 h-52 sm:h-72 rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-wedding-border group shadow-card-soft">
+          <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=800&auto=format&fit=crop"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            alt="Foto Novios 5">
+        </div>
+      </div>
+    </section>
+
+    <!-- ¿DÓNDE & CUÁNDO? (Solo Google Maps) -->
+    <section class="p-6 sm:p-10 space-y-5 bg-white/70">
+      <div class="relative flex py-3 items-center mb-6">
+        <div class="flex-grow border-t border-gold/30"></div>
+        <span class="flex-shrink mx-4 text-gold-dark text-base font-serif">✦ ✦ ✦</span>
+        <div class="flex-grow border-t border-gold/30"></div>
+      </div>
+
+      <div class="text-center reveal">
+        <span
+          class="text-xs sm:text-sm text-gold-dark uppercase tracking-[0.3em] font-bold block mb-1.5">Locaciones</span>
+        <h3 class="serif text-3xl sm:text-5xl italic text-wedding-text">¿Dónde & Cuándo?</h3>
+      </div>
+
+      <!-- Ceremonia -->
+      <div class="reveal bg-white border-2 border-wedding-border rounded-3xl p-6 sm:p-7 shadow-card-soft">
+        <div class="flex items-center gap-3.5 mb-3.5">
+          <div
+            class="w-12 h-12 rounded-2xl bg-gold/10 text-gold-dark flex items-center justify-center shrink-0 border border-gold/30">
+            <i data-lucide="church" class="w-6 h-6 text-gold-dark"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-lg sm:text-xl text-wedding-text">Ceremonia Religiosa</h4>
+            <span class="text-sm sm:text-base text-gold-dark font-extrabold flex items-center gap-1.5 mt-0.5">
+              <i data-lucide="clock" class="w-4 h-4"></i> 17:00 hrs
+            </span>
+          </div>
+        </div>
+        <p class="text-sm sm:text-base text-wedding-muted mb-5 leading-relaxed">
+          <strong class="text-wedding-text text-base sm:text-lg block mb-0.5">Parroquia de San Jerónimo</strong>
+          Calle Hidalgo #102, Centro Histórico.
+        </p>
+        <a href="https://maps.google.com" target="_blank"
+          class="w-full py-3.5 bg-wedding-bg hover:bg-gold/15 text-wedding-text border-2 border-wedding-border hover:border-gold/50 rounded-2xl text-sm sm:text-base font-bold flex items-center justify-center gap-2 transition-all btn-interactive">
+          <i data-lucide="map-pin" class="w-4 h-4 text-gold-dark"></i> Abrir en Google Maps
+        </a>
+      </div>
+
+      <!-- Recepción -->
+      <div class="reveal delay-100 bg-white border-2 border-wedding-border rounded-3xl p-6 sm:p-7 shadow-card-soft">
+        <div class="flex items-center gap-3.5 mb-3.5">
+          <div
+            class="w-12 h-12 rounded-2xl bg-gold/10 text-gold-dark flex items-center justify-center shrink-0 border border-gold/30">
+            <i data-lucide="party-popper" class="w-6 h-6 text-gold-dark"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-lg sm:text-xl text-wedding-text">Recepción & Fiesta</h4>
+            <span class="text-sm sm:text-base text-gold-dark font-extrabold flex items-center gap-1.5 mt-0.5">
+              <i data-lucide="clock" class="w-4 h-4"></i> 19:00 hrs
+            </span>
+          </div>
+        </div>
+        <p class="text-sm sm:text-base text-wedding-muted mb-5 leading-relaxed">
+          <strong class="text-wedding-text text-base sm:text-lg block mb-0.5">Hacienda Santa Mónica</strong>
+          Camino Real a Juriquilla #405, Jardín Principal.
+        </p>
+        <a href="https://maps.google.com" target="_blank"
+          class="w-full py-3.5 bg-wedding-bg hover:bg-gold/15 text-wedding-text border-2 border-wedding-border hover:border-gold/50 rounded-2xl text-sm sm:text-base font-bold flex items-center justify-center gap-2 transition-all btn-interactive">
+          <i data-lucide="map-pin" class="w-4 h-4 text-gold-dark"></i> Abrir en Google Maps
+        </a>
+      </div>
+    </section>
+
+    <!-- ITINERARIO DETALLADO (Exclusivo VIP) -->
+    <section id="feature-itinerario" class="p-6 sm:p-10">
+      <div class="relative flex py-3 items-center mb-6">
+        <div class="flex-grow border-t border-gold/30"></div>
+        <span class="flex-shrink mx-4 text-gold-dark text-base font-serif">✦ ✦ ✦</span>
+        <div class="flex-grow border-t border-gold/30"></div>
+      </div>
+
+      <div class="text-center mb-6 reveal">
+        <div
+          class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto mb-3.5 border border-gold/25">
+          <i data-lucide="calendar-check" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+        </div>
+        <span class="text-xs sm:text-sm text-gold-dark uppercase tracking-[0.25em] font-bold block mb-1">Paso a
+          Paso</span>
+        <h3 class="serif text-3xl sm:text-5xl italic text-wedding-text">Itinerario Detallado</h3>
+      </div>
+
+      <div class="space-y-3.5 text-sm sm:text-base">
+        <div
+          class="reveal flex items-center gap-3.5 bg-white p-4 sm:p-5 rounded-2xl border border-wedding-border shadow-card-soft">
+          <div class="w-11 h-11 rounded-xl bg-gold/10 text-gold-dark flex items-center justify-center shrink-0">
+            <i data-lucide="church" class="w-5 h-5 text-gold-dark"></i>
+          </div>
+          <div class="flex-1">
+            <span class="font-mono text-gold-dark font-extrabold text-xs sm:text-sm block">17:00 HRS</span>
+            <span class="text-base sm:text-lg text-wedding-text font-bold">Misa de Matrimonio</span>
+          </div>
+        </div>
+
+        <div
+          class="reveal delay-100 flex items-center gap-3.5 bg-white p-4 sm:p-5 rounded-2xl border border-wedding-border shadow-card-soft">
+          <div class="w-11 h-11 rounded-xl bg-gold/10 text-gold-dark flex items-center justify-center shrink-0">
+            <i data-lucide="wine" class="w-5 h-5 text-gold-dark"></i>
+          </div>
+          <div class="flex-1">
+            <span class="font-mono text-gold-dark font-extrabold text-xs sm:text-sm block">19:00 HRS</span>
+            <span class="text-base sm:text-lg text-wedding-text font-bold">Cóctel de Bienvenida</span>
+          </div>
+        </div>
+
+        <div
+          class="reveal delay-200 flex items-center gap-3.5 bg-white p-4 sm:p-5 rounded-2xl border border-wedding-border shadow-card-soft">
+          <div class="w-11 h-11 rounded-xl bg-gold/10 text-gold-dark flex items-center justify-center shrink-0">
+            <i data-lucide="utensils" class="w-5 h-5 text-gold-dark"></i>
+          </div>
+          <div class="flex-1">
+            <span class="font-mono text-gold-dark font-extrabold text-xs sm:text-sm block">20:30 HRS</span>
+            <span class="text-base sm:text-lg text-wedding-text font-bold">Cena y Brindis de Honor</span>
+          </div>
+        </div>
+
+        <div
+          class="reveal delay-300 flex items-center gap-3.5 bg-white p-4 sm:p-5 rounded-2xl border border-wedding-border shadow-card-soft">
+          <div class="w-11 h-11 rounded-xl bg-gold/10 text-gold-dark flex items-center justify-center shrink-0">
+            <i data-lucide="music" class="w-5 h-5 text-gold-dark"></i>
+          </div>
+          <div class="flex-1">
+            <span class="font-mono text-gold-dark font-extrabold text-xs sm:text-sm block">22:00 HRS</span>
+            <span class="text-base sm:text-lg text-wedding-text font-bold">Apertura de Pista y Fiesta</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CORTE DE HONOR & PADRINOS (Exclusivo VIP) -->
+    <section id="feature-padrinos" class="p-6 sm:p-10 bg-white/70">
+      <div class="relative flex py-3 items-center mb-6">
+        <div class="flex-grow border-t border-gold/30"></div>
+        <span class="flex-shrink mx-4 text-gold-dark text-base font-serif">✦ ✦ ✦</span>
+        <div class="flex-grow border-t border-gold/30"></div>
+      </div>
+
+      <div class="text-center mb-6 reveal">
+        <div
+          class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto mb-3.5 border border-gold/25">
+          <i data-lucide="award" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+        </div>
+        <span class="text-xs sm:text-sm text-gold-dark uppercase tracking-[0.25em] font-bold block mb-1">Corte de
+          Honor</span>
+        <h3 class="serif text-3xl sm:text-5xl italic text-wedding-text">Nuestros Padrinos</h3>
+        <p class="text-xs sm:text-base text-wedding-muted font-normal mt-1.5">Personas especiales que nos acompañan en
+          este nuevo inicio.</p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 text-xs sm:text-base">
+        <div class="reveal bg-white border-2 border-wedding-border rounded-2xl p-4 text-center shadow-card-soft">
+          <div class="w-10 h-10 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto mb-2">
+            <i data-lucide="flame" class="w-5 h-5 text-gold-dark"></i>
+          </div>
+          <span
+            class="text-[10px] sm:text-xs uppercase tracking-widest text-gold-dark block font-mono font-extrabold">Velación</span>
+          <p class="font-bold text-wedding-text text-sm sm:text-base mt-1">Carlos Herrera</p>
+          <p class="text-xs sm:text-sm text-wedding-muted">& Mariana Soto</p>
+        </div>
+
+        <div
+          class="reveal delay-100 bg-white border-2 border-wedding-border rounded-2xl p-4 text-center shadow-card-soft">
+          <div class="w-10 h-10 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto mb-2">
+            <i data-lucide="gem" class="w-5 h-5 text-gold-dark"></i>
+          </div>
+          <span
+            class="text-[10px] sm:text-xs uppercase tracking-widest text-gold-dark block font-mono font-extrabold">Anillos</span>
+          <p class="font-bold text-wedding-text text-sm sm:text-base mt-1">Rodrigo Valenzuela</p>
+          <p class="text-xs sm:text-sm text-wedding-muted">& Andrea Castillo</p>
+        </div>
+
+        <div class="reveal bg-white border-2 border-wedding-border rounded-2xl p-4 text-center shadow-card-soft">
+          <div class="w-10 h-10 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto mb-2">
+            <i data-lucide="coins" class="w-5 h-5 text-gold-dark"></i>
+          </div>
+          <span
+            class="text-[10px] sm:text-xs uppercase tracking-widest text-gold-dark block font-mono font-extrabold">Arras</span>
+          <p class="font-bold text-wedding-text text-sm sm:text-base mt-1">Lic. Esteban Cruz</p>
+          <p class="text-xs sm:text-sm text-wedding-muted">& Elena Morales</p>
+        </div>
+
+        <div
+          class="reveal delay-100 bg-white border-2 border-wedding-border rounded-2xl p-4 text-center shadow-card-soft">
+          <div class="w-10 h-10 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto mb-2">
+            <i data-lucide="infinity" class="w-5 h-5 text-gold-dark"></i>
+          </div>
+          <span
+            class="text-[10px] sm:text-xs uppercase tracking-widest text-gold-dark block font-mono font-extrabold">Lazo</span>
+          <p class="font-bold text-wedding-text text-sm sm:text-base mt-1">Sebastián Navarro</p>
+          <p class="text-xs sm:text-sm text-wedding-muted">& Daniela Flores</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CÓDIGO DE VESTIMENTA CON SILUETAS Y PALETA DE COLORES -->
+    <section class="reveal p-6 sm:p-10 text-center">
+      <div class="relative flex py-3 items-center mb-6">
+        <div class="flex-grow border-t border-gold/30"></div>
+        <span class="flex-shrink mx-4 text-gold-dark text-base font-serif">✦ ✦ ✦</span>
+        <div class="flex-grow border-t border-gold/30"></div>
+      </div>
+
+      <div
+        class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto mb-3.5 border border-gold/25">
+        <i data-lucide="sparkles" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+      </div>
+      <h3 class="serif text-3xl sm:text-5xl italic text-gold-dark mb-1">Código de Vestimenta</h3>
+      <span class="text-base sm:text-xl font-extrabold uppercase tracking-wider block mb-5 text-wedding-text">Rigurosa
+        Etiqueta / Formal</span>
+
+      <!-- ILUSTRACIÓN VECTORIAL: VESTIDO Y ESMOQUIN -->
+      <div
+        class="bg-white border-2 border-wedding-border rounded-3xl p-6 sm:p-8 max-w-md mx-auto shadow-card-soft mb-6">
+        <div class="flex items-center justify-center gap-8 sm:gap-12 py-2">
+
+          <!-- Silueta Vestido de Gala -->
+          <div class="flex flex-col items-center">
+            <svg class="w-16 h-28 sm:w-20 sm:h-32 text-gold-dark drop-shadow-sm" viewBox="0 0 100 160"
+              fill="currentColor">
+              <path d="M40,16 Q50,22 60,16 Q50,25 40,16 Z" fill="#B8934A" />
+              <path
+                d="M36,28 C34,22 42,19 46,24 C50,27 50,27 54,24 C58,19 66,22 64,28 C62,38 60,48 58,58 C68,85 85,135 90,155 C70,158 30,158 10,155 C15,135 32,85 42,58 C40,48 38,38 36,28 Z"
+                fill="#201D1A" />
+            </svg>
+            <span class="font-serif italic text-base sm:text-lg text-wedding-text font-bold mt-2">Mujeres</span>
+            <span class="text-xs text-wedding-muted">Vestido largo de noche</span>
+          </div>
+
+          <div class="h-24 w-[1px] bg-wedding-border"></div>
+
+          <!-- Silueta Esmoquin / Traje -->
+          <div class="flex flex-col items-center">
+            <svg class="w-16 h-28 sm:w-20 sm:h-32 text-wedding-text drop-shadow-sm" viewBox="0 0 100 160"
+              fill="currentColor">
+              <polygon points="46,20 50,30 54,20 50,16" fill="#7D5E1F" />
+              <polygon points="48,30 52,30 53,52 50,56 47,52" fill="#201D1A" />
+              <path d="M26,24 L36,18 L46,22 L40,54 L20,48 Z" fill="#201D1A" />
+              <path d="M74,24 L64,18 L54,22 L60,54 L80,48 Z" fill="#201D1A" />
+              <path d="M38,50 L42,95 L34,92 L22,48 Z" fill="#201D1A" />
+              <path d="M62,50 L58,95 L66,92 L78,48 Z" fill="#201D1A" />
+              <polygon points="44,25 56,25 58,85 42,85" fill="#FDFCF9" />
+              <rect x="36" y="90" width="12" height="66" rx="2" fill="#201D1A" />
+              <rect x="52" y="90" width="12" height="66" rx="2" fill="#201D1A" />
+            </svg>
+            <span class="font-serif italic text-base sm:text-lg text-wedding-text font-bold mt-2">Hombres</span>
+            <span class="text-xs text-wedding-muted">Traje formal o esmoquin</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PALETA DE COLORES RECOMENDADOS -->
+      <div
+        class="max-w-md mx-auto bg-white border border-wedding-border rounded-2xl p-5 shadow-card-soft mb-6 text-center">
+        <span class="text-xs uppercase tracking-widest text-gold-dark font-mono font-bold block mb-3">Colores Sugeridos
+          para Invitados</span>
+        <div class="flex items-center justify-center gap-3.5 sm:gap-5 flex-wrap">
+          <div class="flex flex-col items-center gap-1">
+            <span class="w-8 h-8 rounded-full bg-[#1C2833] border-2 border-wedding-border shadow-sm"></span>
+            <span class="text-[10px] text-wedding-muted font-medium">Azul Noche</span>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <span class="w-8 h-8 rounded-full bg-[#3E2723] border-2 border-wedding-border shadow-sm"></span>
+            <span class="text-[10px] text-wedding-muted font-medium">Mocaccino</span>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <span class="w-8 h-8 rounded-full bg-[#5D6D7E] border-2 border-wedding-border shadow-sm"></span>
+            <span class="text-[10px] text-wedding-muted font-medium">Pizarra</span>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <span class="w-8 h-8 rounded-full bg-[#2C3E50] border-2 border-wedding-border shadow-sm"></span>
+            <span class="text-[10px] text-wedding-muted font-medium">Marino</span>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <span class="w-8 h-8 rounded-full bg-[#1E272C] border-2 border-wedding-border shadow-sm"></span>
+            <span class="text-[10px] text-wedding-muted font-medium">Negro</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTA DE COLOR RESERVADO -->
+      <div
+        class="inline-flex justify-center items-center gap-2.5 text-xs sm:text-sm text-wedding-text bg-white px-5 py-2.5 rounded-full border border-gold/40 shadow-card-soft">
+        <span class="w-3.5 h-3.5 rounded-full bg-white border-2 border-gold inline-block shadow-sm shrink-0"></span>
+        <span class="font-bold text-gold-dark">El color blanco y crema están reservados exclusivamente para la
+          novia.</span>
+      </div>
+    </section>
+
+    <!-- SECCIÓN NO NIÑOS (SOLO ADULTOS) -->
+    <section id="feature-no-ninos" class="p-6 sm:p-10 text-center bg-white/70">
+      <div class="relative flex py-3 items-center mb-6">
+        <div class="flex-grow border-t border-gold/30"></div>
+        <span class="flex-shrink mx-4 text-gold-dark text-base font-serif">✦ ✦ ✦</span>
+        <div class="flex-grow border-t border-gold/30"></div>
+      </div>
+
+      <div
+        class="reveal max-w-md mx-auto bg-white border-2 border-wedding-border rounded-3xl p-7 sm:p-10 shadow-card-soft text-center">
+        <div
+          class="w-16 h-16 rounded-full bg-amber-50 text-gold-dark border border-gold/30 flex items-center justify-center mx-auto mb-4">
+          <i data-lucide="moon" class="w-8 h-8 text-gold-dark"></i>
+        </div>
+        <span
+          class="text-xs sm:text-sm uppercase tracking-widest text-gold-dark font-mono font-bold block mb-1.5">Recepción
+          Solo Adultos</span>
+        <h3 class="serif text-3xl sm:text-4xl italic text-wedding-text mb-4 font-semibold">Noche de Fiesta Libre</h3>
+        <p class="text-base sm:text-lg text-wedding-muted leading-relaxed mb-6">
+          Amamos a sus pequeños, pero para que todos los papás y mamás puedan relajarse, disfrutar del brindis y bailar
+          toda la noche sin preocupaciones, hemos preparado una recepción exclusivamente para <strong>adultos</strong>.
+        </p>
+        <div
+          class="inline-block text-sm sm:text-base font-serif italic text-gold-dark font-bold bg-gold/10 px-6 py-2.5 rounded-full border border-gold/30 shadow-sm">
+          ¡Agradecemos mucho su comprensión y apoyo!
+        </div>
+      </div>
+    </section>
+
+    <!-- MESA DE REGALOS -->
+    <section class="p-6 sm:p-10 bg-white/70">
+      <div class="relative flex py-3 items-center mb-6">
+        <div class="flex-grow border-t border-gold/30"></div>
+        <span class="flex-shrink mx-4 text-gold-dark text-base font-serif">✦ ✦ ✦</span>
+        <div class="flex-grow border-t border-gold/30"></div>
+      </div>
+
+      <div class="text-center mb-6 reveal">
+        <div
+          class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto mb-3.5 border border-gold/25">
+          <i data-lucide="gift" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+        </div>
+        <h3 class="serif text-3xl sm:text-5xl italic text-wedding-text mb-2">Mesa de Regalos</h3>
+        <p class="text-xs sm:text-base text-wedding-muted max-w-md mx-auto">Tu presencia es nuestro mejor regalo, pero
+          si deseas hacernos un detalle:</p>
+      </div>
+
+      <div class="space-y-4 max-w-md mx-auto">
+        <a href="https://www.liverpool.com.mx" target="_blank"
+          class="reveal flex justify-between items-center p-5 bg-white border-2 border-wedding-border hover:border-gold/60 rounded-3xl transition-all text-sm sm:text-base btn-interactive shadow-card-soft">
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-2xl bg-gold/10 text-gold-dark flex items-center justify-center shrink-0">
+              <i data-lucide="shopping-bag" class="w-5 h-5 text-gold-dark"></i>
+            </div>
+            <div>
+              <p class="font-bold text-base sm:text-lg text-wedding-text">Liverpool</p>
+              <p class="text-xs text-wedding-muted">Número de Evento: #51420993</p>
+            </div>
+          </div>
+          <i data-lucide="arrow-up-right" class="w-5 h-5 text-gold-dark"></i>
+        </a>
+
+        <div
+          class="reveal delay-100 p-5 bg-white border-2 border-wedding-border rounded-3xl text-sm sm:text-base shadow-card-soft">
+          <div class="flex items-center gap-3 mb-2.5">
+            <div class="w-11 h-11 rounded-2xl bg-gold/10 text-gold-dark flex items-center justify-center shrink-0">
+              <i data-lucide="credit-card" class="w-5 h-5 text-gold-dark"></i>
+            </div>
+            <p class="font-bold text-base sm:text-lg text-wedding-text">Transferencia Bancaria</p>
+          </div>
+          <p class="text-xs sm:text-sm text-wedding-muted mb-3">BBVA Bancomer • Sofía Valenzuela</p>
+          <div
+            class="flex justify-between items-center bg-wedding-bg p-3.5 rounded-2xl font-mono text-sm text-wedding-text border border-wedding-border">
+            <span class="font-bold tracking-wider text-gold-dark text-xs sm:text-base truncate">012 180 0156 8942
+              3312</span>
+            <button onclick="navigator.clipboard.writeText('012180015689423312'); alert('¡Cuenta CLABE copiada!');"
+              class="text-xs text-gold-dark hover:text-gold uppercase font-extrabold underline cursor-pointer ml-2 shrink-0">Copiar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOTELES RECOMENDADOS (Exclusivo VIP) -->
+    <section id="feature-hoteles" class="p-6 sm:p-10">
+      <div class="relative flex py-3 items-center mb-6">
+        <div class="flex-grow border-t border-gold/30"></div>
+        <span class="flex-shrink mx-4 text-gold-dark text-base font-serif">✦ ✦ ✦</span>
+        <div class="flex-grow border-t border-gold/30"></div>
+      </div>
+
+      <div class="text-center mb-6 reveal">
+        <div
+          class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto mb-3.5 border border-gold/25">
+          <i data-lucide="hotel" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+        </div>
+        <h3 class="serif text-3xl sm:text-5xl italic text-wedding-text mb-1.5">Hospedaje Recomendado</h3>
+        <p class="text-xs sm:text-base text-wedding-muted">Para nuestros seres queridos que viajan desde fuera:</p>
+      </div>
+
+      <div
+        class="reveal bg-white border-2 border-wedding-border rounded-3xl p-5 sm:p-6 text-sm sm:text-base space-y-2.5 shadow-card-soft max-w-md mx-auto">
+        <div class="flex items-center justify-between">
+          <p class="font-bold text-base sm:text-lg text-wedding-text">Hotel Quinta Real Grand</p>
+          <span class="text-xs text-gold-dark font-mono font-bold">★★★★★</span>
+        </div>
+        <p class="text-xs sm:text-sm text-wedding-muted">A solo 8 minutos de la Hacienda Santa Mónica.</p>
+        <div class="pt-1.5">
+          <span
+            class="inline-block text-xs font-bold text-gold-dark bg-gold/10 px-3.5 py-1.5 rounded-full border border-gold/30">
+            Mencionar Código: BODA-SOFIA-MATEO
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMULARIO DE CONFIRMACIÓN -->
+    <section class="p-6 sm:p-10 text-center bg-white/80">
+      <div class="relative flex py-3 items-center mb-6">
+        <div class="flex-grow border-t border-gold/30"></div>
+        <span class="flex-shrink mx-4 text-gold-dark text-base font-serif">✦ ✦ ✦</span>
+        <div class="flex-grow border-t border-gold/30"></div>
+      </div>
+
+      <div
+        class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto mb-3.5 border border-gold/25">
+        <i data-lucide="check-circle" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+      </div>
+      <h3 class="serif text-3xl sm:text-5xl italic text-wedding-text mb-2 reveal">Confirmar Asistencia</h3>
+      <p class="text-xs sm:text-base text-wedding-muted mb-6 reveal font-normal">Agradecemos confirmar antes del 30 de
+        Septiembre de 2026.</p>
+
+      <!-- Contenedor del formulario -->
+      <div id="rsvpCardContainer"
+        class="reveal bg-white border-2 border-gold/30 rounded-3xl p-6 sm:p-8 text-left space-y-5 shadow-wedding-soft max-w-md mx-auto">
+
+        <div id="personalizedTicketBadge" class="bg-gold/10 border border-gold/30 rounded-2xl p-4 text-center">
+          <span class="text-[11px] uppercase tracking-widest text-gold-dark font-mono font-bold block mb-0.5">Pases
+            Exclusivos</span>
+          <p class="font-serif italic text-lg sm:text-xl text-wedding-text">
+            Hemos reservado <span id="assignedTicketsText" class="font-bold text-gold-dark">2 lugares</span> en su
+            honor.
+          </p>
+        </div>
+
+        <div>
+          <label class="block text-xs sm:text-sm font-bold text-gold-dark uppercase tracking-wider mb-2">
+            Nombre Completo de Quien Confirma <span class="text-rose-500">*</span>
+          </label>
+          <input id="guestName" type="text" placeholder="Ej. Familia Gómez Herrera"
+            class="w-full bg-wedding-bg border border-wedding-border rounded-2xl px-4 py-3.5 text-sm sm:text-base text-wedding-text focus:border-gold outline-none transition-colors" />
+          <p id="guestNameError" class="hidden text-xs text-rose-500 font-semibold mt-1.5 flex items-center gap-1">
+            <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Por favor ingresa tu nombre completo para confirmar.
+          </p>
+        </div>
+
+        <div>
+          <label class="block text-xs sm:text-sm font-bold text-gold-dark uppercase tracking-wider mb-2">¿Asistirás a la
+            Boda?</label>
+          <select id="guestAttendance"
+            class="w-full bg-wedding-bg border border-wedding-border rounded-2xl px-4 py-3.5 text-sm sm:text-base text-wedding-text focus:border-gold outline-none">
+            <option value="si">¡Sí, con mucho gusto asistiré!</option>
+            <option value="no">Lamentablemente no podré asistir</option>
+          </select>
+        </div>
+
+        <div id="feature-pases">
+          <label class="block text-xs sm:text-sm font-bold text-gold-dark uppercase tracking-wider mb-2">Número de Pases
+            Confirmados</label>
+          <select id="guestTickets"
+            class="w-full bg-wedding-bg border border-wedding-border rounded-2xl px-4 py-3.5 text-sm sm:text-base text-wedding-text focus:border-gold outline-none">
+          </select>
+        </div>
+
+        <button id="sendWhatsAppRSVP"
+          class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl text-sm sm:text-base font-bold flex items-center justify-center gap-2.5 shadow-lg btn-shimmer btn-interactive btn-pulse-emerald">
+          <i data-lucide="message-circle" class="w-5 h-5"></i> Confirmar por WhatsApp
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+<!-- SCRIPTS -->
+  <!-- Opción A: Usar archivo externo -->
+  <script src="js/config-demo-boda.js"></script>
+  <!-- O Opción B: Script en línea si prefieres no crear archivo -->
+  <!-- <script> const INVITATION_CONFIG = { ... }; </script> -->
+  
+  <script src="../shared/js/invitation-core.js"></script>
+</body>
+
+</html>
